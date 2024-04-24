@@ -4,13 +4,14 @@ from typing import Any
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain_pinecone import Pinecone
-from langchain_pinecone.vectorstores import PineconeVectorStore
+
+from consts import INDEX_NAME
 
 
 def run_llm(query: str) -> Any:
     embeddings = OpenAIEmbeddings()
     docsearch = Pinecone.from_existing_index(
-        index_name="langchain-doc-index", embedding=embeddings
+        index_name=INDEX_NAME, embedding=embeddings
     )
     chat = ChatOpenAI(verbose=True, temperature=0)
     qa = RetrievalQA.from_chain_type(
