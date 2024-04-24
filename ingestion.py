@@ -6,14 +6,16 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Pinecone as PineconeLangChain
 from langchain_pinecone import Pinecone
 
-#Pinecone.init(api_key=os.environ.get["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT_REGION"])
+# Pinecone.init(api_key=os.environ.get["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT_REGION"])
 
 
-def ingest_docs()->None:
+def ingest_docs() -> None:
     loader = ReadTheDocsLoader(path="langchain-docs/langchain.readthedocs.io/en/latest")
     raw_document = loader.load()
     print(f"loaded {len(raw_document)}documents")
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100, separators=["\n\n", "\n", " ", ""])
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, chunk_overlap=100, separators=["\n\n", "\n", " ", ""]
+    )
     documents = text_splitter.split_documents(documents=raw_document)
     print(f"Splitted into {len(documents)} chunks")
 
@@ -28,8 +30,5 @@ def ingest_docs()->None:
     print("******** Added to Pinecone vectorstore vectors")
 
 
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     ingest_docs()
